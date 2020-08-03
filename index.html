@@ -12,26 +12,26 @@
 
     <!-- import the webpage's javascript file -->
     <script src="/script.js" defer></script>
-    
-    
+
     <script>
-      AFRAME.registerComponent('rotate-moon', {
-        init: function () {
-        },
+      AFRAME.registerComponent("rotate-moon", {
+        init: function() {},
         tick: function() {
           let rotation = this.el.getAttribute("rotation");
           rotation.y += 0.1;
           this.el.setAttribute("rotation", rotation);
         }
-      })
-    </script>    
+      });
+    </script>
   </head>
   <body>
     <a-scene>
-<a-entity oculus-touch-controls="hand: left"></a-entity>
-<a-entity oculus-touch-controls="hand: right"></a-entity>
-      
-      <a-sky src="https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fstars_texture.jpg?v=1596487305133"></a-sky>
+      <a-entity oculus-touch-controls="hand: left"></a-entity>
+      <a-entity oculus-touch-controls="hand: right"></a-entity>
+
+      <a-sky
+        src="https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fstars_texture.jpg?v=1596487305133"
+      ></a-sky>
 
       <a-sphere
         rotate-moon
@@ -41,6 +41,5 @@
         position="0 2 -5"
       ></a-sphere>
     </a-scene>
-  
   </body>
 </html>
