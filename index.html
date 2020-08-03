@@ -17,16 +17,11 @@
     <script>
       AFRAME.registerComponent('rotate-moon', {
         init: function () {
-          setTimeout( () => {
-            let position = this.el.getAttribute("position");
-            position.y += 0.1;
-            console.log(position);
-            this.el.setAttribute("position", position)
-          }, 3000);
         },
         tick: function() {
           let rotation = this.el.getAttribute("rotation");
           rotation.y += 0.1;
+          this.el.setAttribute("rotation", rotation);
         }
       })
     </script>    
