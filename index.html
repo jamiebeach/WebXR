@@ -23,13 +23,32 @@
         }
       });
 
-      AFRAME.registerShader("my-custom", {
+      AFRAME.registerShader("custom-material-shader", {
         schema: {
           color: { type: "color", is: "uniform", default: "red" },
-          opacity: { type: "number", is: "uniform", default: 1.0 },
-          raw: false,
-          
-        }
+          opacity: { type: "number", is: "uniform", default: 1.0 }
+        },
+        raw: false,
+        fragmentShader: `
+              // Use medium precision.
+              precision mediump float;
+
+              // This receives the color value from the schema, which becomes a vec3 in the shader.
+              uniform vec3 color;
+
+              // This receives the opacity value from the schema, which becomes a number.
+              uniform float opacity;
+
+              // This is the shader program.
+              // A fragment shader can set the color via gl_FragColor,
+              // or decline to draw anything via discard.
+              void main () {
+                // Note that this shader doesn't use texture coordinates.
+                // Set the RGB portion to our color,
+                // and the alpha portion to our opacity.
+                gl_FragColor = vec4(color, opacity);
+              }
+            `
       });
     </script>
   </head>
@@ -45,6 +64,7 @@
       <a-sphere
         rotate-moon
         src="https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480"
+        material="shader: custom-material-shader; color: blue; opacity: 0.7;"
         radius="2"
         segments-height="53"
         position="0 2 -5"
