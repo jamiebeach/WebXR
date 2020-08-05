@@ -32,7 +32,7 @@
             is: "uniform",
             default: new THREE.Vector2(1920.0, 720.0)
           },
-          u_time: { type: "number", is: "uniform", default: 20.0 }
+          u_time: { type: "number", is: "uniform", default: 1.0 }
         },
         raw: false,
         fragmentShader: `
@@ -48,7 +48,7 @@
                   st.x *= u_resolution.x/u_resolution.y;
 
                   vec3 color = vec3(0.);
-                  color = vec3(0.5,0.5,abs(sin(u_time)));
+                  color = vec3(0.9,0.1,abs(sin(u_time)));
                   gl_FragColor = vec4(color,1.0);
               }
               
@@ -64,7 +64,7 @@
         },
 
         tick: function(t, dt) {
-          this.u_time = new Date().getTime() * 3.14 * 0.5;
+          this.u_time = 0.0;
           this.el.setAttribute("material", "u_time", this.u_time);
           
         }
@@ -89,5 +89,10 @@
         position="0 2 -5"
       ></a-sphere>
     </a-scene>
+    
+    <script>
+      var d = new Date();
+      
+    </script>
   </body>
 </html>
