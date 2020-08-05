@@ -27,9 +27,8 @@
         schema: {
           color: { type: "color", is: "uniform", default: "red" },
           opacity: { type: "number", is: "uniform", default: 1.0 },
-          u_resolution: {type: "vec2", is:"uniform"},
-          u_mouse: {type : "vec2", is:"uniform"},
-          u_time: {type: "number", is:"uniform"}
+          u_resolution: {type: "vec2", is:"uniform", default: new THREE.Vector2(0.1, 500.0)},
+          u_time: {type: "number", is:"uniform", default:20.0}
         },
         raw: false,
         fragmentShader: `
@@ -38,7 +37,6 @@
 
 
               uniform vec2 u_resolution;
-              uniform vec2 u_mouse;
               uniform float u_time;
 
               void main() {
