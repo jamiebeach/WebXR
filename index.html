@@ -30,7 +30,7 @@
           u_resolution: {
             type: "vec2",
             is: "uniform",
-            default: new THREE.Vector2(1920.0, 720.0)
+            default: new THREE.Vector2(1.0, 1.0)
           },
           u_time: { type: "number", is: "uniform", default: 1.0 }
         },
@@ -58,7 +58,12 @@
       AFRAME.registerComponent("material-updater", {
         init: function() {
           this.u_time = 0;
-          console.log(this.el.sceneEl);
+          this.u_resolution = new THREE.Vector2(
+            this.el.sceneEl.canvas.width,
+            this.el.sceneEl.canvas.height
+          );
+          this.el.setAttribute("material", "u_resolution", this.u_resolution);
+          console.log(this.u_resolution);
         },
 
         tick: function(t, dt) {
