@@ -48,7 +48,7 @@
                   st.x *= u_resolution.x/u_resolution.y;
 
                   vec3 color = vec3(0.);
-                  color = vec3(0.5,0.4,abs(sin(u_time)/10.0));
+                  color = vec3(st.x,st.y*abs(cos(3.14*u_time)),abs(sin(3.14*u_time)));
                   gl_FragColor = vec4(color,1.0);
               }
               
@@ -57,19 +57,12 @@
 
       AFRAME.registerComponent("material-updater", {
         init: function() {
-          var d = new Date();
-          var n = d.getTime();
-          this.u_date = d;
-          this.u_time = n;
+          this.u_time = 0;
         },
 
         tick: function(t, dt) {
-          this.el.setAttribute("material", "u_time", this.u_time);
           this.u_time++;
-          var t = this.u_time;
-          console.log(
-            0.5*(1+Math.sin(2 * Math.PI * 1.0 * t))
-            );
+          this.el.setAttribute("material", "u_time", this.u_time);
         }
       });
     </script>
