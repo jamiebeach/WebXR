@@ -27,64 +27,16 @@
         schema: {
           color: { type: "color", is: "uniform", default: "red" },
           opacity: { type: "number", is: "uniform", default: 1.0 },
-          u_resolution: {
-            type: "vec2",
-            is: "uniform",
-            default: new THREE.Vector2(1.0, 1.0)
-          },
           u_time: { type: "number", is: "uniform", default: 1.0 }
         },
+        
         raw: false,
-        fragmentShader: `
-              // Use medium precision.
-              precision mediump float;
 
-
-              uniform vec2 u_resolution;
-              uniform float u_time;
-
-              void main() {
-                  vec2 st = gl_FragCoord.xy/u_resolution.xy;
-                  st.x *= u_resolution.x/u_resolution.y;
-
-                  vec3 color = vec3(0.);
-                  color = vec3(abs(sin(5.0*3.14*u_time)),abs(sin(5.0*3.14*u_time)),abs(sin(3.14*u_time)));
-                  gl_FragColor = vec4(color,1.0);
-              }
-              
-            `
-      });
-
-      AFRAME.registerComponent("material-updater", {
         init: function() {
           this.u_time = 0;
-          this.u_resolution = new THREE.Vector2(
-            this.el.sceneEl.canvas.width,
-            this.el.sceneEl.canvas.height
-          );
-          this.el.setAttribute("material", "u_resolution", this.u_resolution);
-          console.log(this.u_resolution);
-
-          var vertices = this.el.getObject3D("mesh").geometry.attributes
-            .position.count;
-          var vertexDisplacement = new Float32Array(vertices);
-          for (var i = 0; i < vertexDisplacement.length; i++) {
-            vertexDisplacement[i] = Math.sin(i);
-          }
-
-          this.el.getObject3D("mesh").geometry.addAttribute(
-            "vertexDisplacement",
-            new THREE.BufferAttribute(vertexDisplacement, 1)
-          );
           
           var mesh = (this.mesh = this.el.getObject3D("mesh"));
-          mesh.material = new THREE.ShaderMaterial({
-            uniforms: {
-              u_time: {
-                value: 1.0
-              }
-            },
-            vertexShader: `
+          mesh.material.vertexShader= `
                 precision mediump float;
                 varying vec2 v_uv;
                 uniform float u_time;
@@ -97,8 +49,9 @@
                    st.z = position.z;
                    gl_Position = projectionMatrix * modelViewMatrix *    vec4(st, 1.0);
               }
-            `,
-            fragmentShader: `
+            `;
+          
+            mesh.material.fragmentShader= `
               // Use medium precision.
               precision mediump float;
 
@@ -112,8 +65,7 @@
                   gl_FragColor = vec4(color,1.0);
               }
               
-            `
-          });
+            `;
           
         },
 
