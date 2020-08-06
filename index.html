@@ -23,7 +23,7 @@
         }
       });
 
-      AFRAME.registerShader("custom-material-shader", {
+      AFRAME.registerComponent("custom-material-shader", {
         schema: {
           color: { type: "color", is: "uniform", default: "red" },
           opacity: { type: "number", is: "uniform", default: 1.0 },
@@ -34,24 +34,26 @@
 
         init: function() {
           this.u_time = 0;
+          var uniforms = { 
+            u_time :  { value : 1.0} 
+          };
           
-          var mesh = (this.mesh = this.el.getObject3D("mesh"));
-          mesh.material.vertexShader= `
-                precision mediump float;
-                varying vec2 v_uv;
-                uniform float u_time;
+          var vShader = `
+              precision mediump float;
+              varying vec2 v_uv;
+              uniform float u_time;
 
-                void main() {
-                   v_uv = uv;
-                   vec3 st = vec3(position);
-                   st.x = position.x + sin(0.01*u_time)*0.25;
-                   st.y = position.y;
-                   st.z = position.z;
-                   gl_Position = projectionMatrix * modelViewMatrix *    vec4(st, 1.0);
+              void main() {
+                 v_uv = uv;
+                 vec3 st = vec3(position);
+                 st.x = position.x + sin(0.01*u_time)*0.25;
+                 st.y = position.y;
+                 st.z = position.z;
+                 gl_Position = projectionMatrix * modelViewMatrix *    vec4(st, 1.0);
               }
             `;
           
-            mesh.material.fragmentShader= `
+            var fShader= `
               // Use medium precision.
               precision mediump float;
 
@@ -66,6 +68,13 @@
               }
               
             `;
+          
+          var mesh = (this.mesh = this.el.getObject3D("mesh"));
+          mesh.material = new THREE.ShaderMaterial({
+            vertexShader: vShader,
+            fragmentShader: fShader,
+            uniforms
+          });
           
         },
 
@@ -88,8 +97,7 @@
 
       <a-sphere
         rotate-moon
-        material="shader: custom-material-shader; color: blue; opacity: 0.7;"
-        material-updater
+        custom-material-shader
         radius="2"
         segments-height="53"
         position="0 2 -5"
