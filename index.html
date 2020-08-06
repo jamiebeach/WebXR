@@ -64,6 +64,31 @@
           );
           this.el.setAttribute("material", "u_resolution", this.u_resolution);
           console.log(this.u_resolution);
+
+          var mesh = this.el.getObject3D("mesh");
+          mesh.material = new THREE.ShaderMaterial({
+            uniforms: {
+              u_time : {
+                value: 1.0
+              }
+            },
+
+            fragmentShader: `
+              // Use medium precision.
+              precision mediump float;
+
+
+              uniform float u_time;
+
+              void main() {
+
+                  vec3 color = vec3(0.);
+                  color = vec3(1.0,abs(sin(u_time)),1.0);
+                  gl_FragColor = vec4(color,1.0);
+              }
+              
+            `
+          });
         },
 
         tick: function(t, dt) {
@@ -91,7 +116,5 @@
         position="0 2 -5"
       ></a-sphere>
     </a-scene>
-
-    <script></script>
   </body>
 </html>
