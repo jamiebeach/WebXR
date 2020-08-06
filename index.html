@@ -84,7 +84,20 @@
                 value: 1.0
               }
             },
+            vertexShader: `
+                precision mediump float;
+                varying vec2 v_uv;
+                uniform float u_time;
 
+                void main() {
+                   v_uv = uv;
+                   vec3 st = vec3(position);
+                   st.x = position.x + sin(0.01*u_time)*0.25;
+                   st.y = position.y;
+                   st.z = position.z;
+                   gl_Position = projectionMatrix * modelViewMatrix *    vec4(st, 1.0);
+              }
+            `,
             fragmentShader: `
               // Use medium precision.
               precision mediump float;
