@@ -57,27 +57,24 @@
       
       AFRAME.registerShader("custom-material-shader", {
         schema: {
-          color: { type: "color", is: "uniform", default: "red" },
-          opacity: { type: "number", is: "uniform", default: 1.0 },
           u_time: { type: "number", is: "uniform", default: 1.0 }
         },
         raw: false,
         vertexShader:vShader,
         fragmentShader:fShader,
-        
+      });
+      
+      AFRAME.registerComponent("animate-material", {
+              
         init: function() {
           this.u_time = 0;
-          var uniforms = { 
-            u_time :  { value : 1.0} 
-          };
-          
         },
 
         tick: function(t, dt) {
           this.u_time++;
           this.el.setAttribute("material", "u_time", this.u_time);
-          this.mesh.material.uniforms.u_time.value++;
         }
+        
       });
     </script>
   </head>
@@ -92,7 +89,8 @@
 
       <a-sphere
         rotate-moon
-        material="color:blue;"
+        material="shader:custom-material-shader"
+        animate-material
         radius="2"
         segments-height="53"
         position="0 2 -5"
