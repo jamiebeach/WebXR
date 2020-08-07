@@ -23,58 +23,53 @@
         }
       });
 
-      AFRAME.registerComponent("custom-material-shader", {
+      
+      var vShader = `
+        precision mediump float;
+        varying vec2 v_uv;
+        uniform float u_time;
+
+        void main() {
+           v_uv = uv;
+           vec3 st = vec3(position);
+           st.x = position.x + sin(0.01*u_time)*0.25;
+           st.y = position.y;
+           st.z = position.z;
+           gl_Position = projectionMatrix * modelViewMatrix *    vec4(st, 1.0);
+        }
+      `;
+
+      var fShader= `
+        // Use medium precision.
+        precision mediump float;
+
+
+        uniform float u_time;
+
+        void main() {
+
+            vec3 color = vec3(0.);
+            color = vec3(1.0,abs(sin(3.14*u_time*0.99)),1.0);
+            gl_FragColor = vec4(color,1.0);
+        }
+
+      `;
+      
+      AFRAME.registerShader("custom-material-shader", {
         schema: {
           color: { type: "color", is: "uniform", default: "red" },
           opacity: { type: "number", is: "uniform", default: 1.0 },
           u_time: { type: "number", is: "uniform", default: 1.0 }
         },
-        
         raw: false,
-
+        vertexShader:vShader,
+        fragmentShader:fShader,
+        
         init: function() {
           this.u_time = 0;
           var uniforms = { 
             u_time :  { value : 1.0} 
           };
-          
-          var vShader = `
-              precision mediump float;
-              varying vec2 v_uv;
-              uniform float u_time;
-
-              void main() {
-                 v_uv = uv;
-                 vec3 st = vec3(position);
-                 st.x = position.x + sin(0.01*u_time)*0.25;
-                 st.y = position.y;
-                 st.z = position.z;
-                 gl_Position = projectionMatrix * modelViewMatrix *    vec4(st, 1.0);
-              }
-            `;
-          
-            var fShader= `
-              // Use medium precision.
-              precision mediump float;
-
-
-              uniform float u_time;
-
-              void main() {
-
-                  vec3 color = vec3(0.);
-                  color = vec3(1.0,abs(sin(3.14*u_time*0.99)),1.0);
-                  gl_FragColor = vec4(color,1.0);
-              }
-              
-            `;
-          
-          var mesh = (this.mesh = this.el.getObject3D("mesh"));
-          mesh.material = new THREE.ShaderMaterial({
-            vertexShader: vShader,
-            fragmentShader: fShader,
-            uniforms
-          });
           
         },
 
@@ -97,7 +92,7 @@
 
       <a-sphere
         rotate-moon
-        custom-material-shader
+        material="color:blue;"
         radius="2"
         segments-height="53"
         position="0 2 -5"
