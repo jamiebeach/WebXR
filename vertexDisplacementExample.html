@@ -186,15 +186,16 @@
 
       var fShader = `
         // Use medium precision.
-        precision mediump float;
+        //precision mediump float;
 
 
         uniform float u_time;
+        uniform float timeMsec; // A-Frame time in milliseconds.
 
         void main() {
 
             vec3 color = vec3(0.);
-            color = vec3(1.0,0.5,1.0);
+            color = vec3(abs(sin(3.14*timeMsec*0.005)),abs(sin(3.14*timeMsec*0.001)),abs(sin(3.14*timeMsec*0.0005)));
             gl_FragColor = vec4(color,1.0);
         }
 
