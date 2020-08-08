@@ -167,7 +167,7 @@
           
           void main() {
 
-            float weight = 0.1;
+            float weight = 0.01;
             vec3 evNormal = normal;
             vec3 aniNormal = 2.0 * evNormal + timeMsec / 1000.0;
             float f0 = weight * f( aniNormal );
@@ -220,7 +220,7 @@
         varying float ao;
 
         float c( float oc ) {
-            return max(min(abs(sin(3.14*oc)),0.5),0.1);
+            return max(min(abs(sin(3.14*oc*0.1)),0.5),0.1);
         }
 
         void main() {
@@ -272,8 +272,8 @@
         scale="1 1 1"
         radius="0.2"
         position="0 1.6 -0.3"
-        segments-height="128"
-        segments-width="128"
+        segments-height="42"
+        segments-width="42"
       >
         <a-animation attribute="scale" direction="alternate-reverse" dur="5000" from="1 1 1" to="4 4 4" repeat="indefinite"></a-animation>
       </a-sphere>
