@@ -56,12 +56,12 @@
         }
 
       `;
-
+      var texture = new THREE.TextureLoader().load( "https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480" );
       AFRAME.registerShader("custom-material-shader", {
         schema: {
           u_time: { type: "number", is: "uniform", default: 1.0 },
           timeMsec: { type: "time", is: "uniform" },
-          src: {type: 'map', is: 'uniform'}
+          src: {type: 'map', is: 'uniform', default:"https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480"}
         },
         raw: false,
         vertexShader: vShader,
@@ -78,6 +78,13 @@
           this.el.setAttribute("material", "u_time", this.u_time);
         }
       });
+      
+      AFRAME.registerComponent('set-moon-texture', {
+        init: function () {
+          console.log("asdf");
+          this.el.setAttribute('material', 'src', texture);
+        },
+      });      
     </script>
   </head>
   <body>
@@ -90,8 +97,9 @@
       ></a-sky>
 
       <a-sphere
-        material="shader:custom-material-shader; src:https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480"
+        material="shader:custom-material-shader;"
         scale="1 1 1"
+        set-moon-texture
         radius="0.2"
         position="0 1.6 -0.3"
         segments-height="42"
