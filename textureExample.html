@@ -7,28 +7,13 @@
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="shaders/pnoise.js"></script>
     <script src="shaders/fragmentTexture.js"></script>
-    <title>Jamie's first A-Frame</title>
-
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css" />
-
-    <!-- import the webpage's javascript file -->
-    <script src="/script.js" defer></script>
+    <title>AFrame shader example with noise vertex displacement shader and textured fragment shader</title>
 
     <script>
-      AFRAME.registerComponent("rotate-moon", {
-        init: function() {},
-        tick: function() {
-          let rotation = this.el.getAttribute("rotation");
-          rotation.y += 0.1;
-          this.el.setAttribute("rotation", rotation);
-        }
-      });
-
       var vShader = pnoise3;
       var fShader = fragmentTexture;
       
-      AFRAME.registerShader("custom-material-shader", {
+      AFRAME.registerShader("vertex-displacement-and-texture-shader", {
         schema: {
           u_time: { type: "number", is: "uniform", default: 1.0 },
           timeMsec: { type: "time", is: "uniform" },
@@ -37,17 +22,6 @@
         raw: false,
         vertexShader: vShader,
         fragmentShader: fShader
-      });
-
-      AFRAME.registerComponent("animate-material", {
-        init: function() {
-          this.u_time = 0;
-        },
-
-        tick: function(t, dt) {
-          this.u_time++;
-          this.el.setAttribute("material", "u_time", this.u_time);
-        }
       });
       
        
@@ -63,7 +37,7 @@
       ></a-sky>
 
       <a-sphere
-        material="shader:custom-material-shader; uMap: https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480"
+        material="shader:vertex-displacement-and-texture-shader; uMap: https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480"
         scale="1 1 1"
         radius="0.2"
         position="0 1.6 -0.3"
