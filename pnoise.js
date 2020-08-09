@@ -143,7 +143,7 @@ var pnoise3 = `
 
     void main() {
 
-      float weight = 0.01;
+      float weight = 0.5;
       vec3 evNormal = normal;
       vec3 aniNormal = 2.0 * evNormal + timeMsec / 1000.0;
       float f0 = weight * f( aniNormal );

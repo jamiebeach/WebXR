@@ -35,7 +35,7 @@
         uniform float timeMsec; // A-Frame time in milliseconds.
         varying vec3 vNormal;
         varying float ao;
-        uniform sampler2D map;
+        uniform sampler2D uMap;
         varying vec2 vUV;
 
         float c( float oc ) {
@@ -50,18 +50,18 @@
             
             vec3 color = vec3(0.);
             color = vec3( c(timeMsec*0.005), c(timeMsec*0.001), c(timeMsec*0.0005)  );
-            vec4 t = texture2D(map, vec2(vUV.x, vUV.y));
+            vec4 t = texture2D(uMap, vec2(vUV.x, vUV.y));
             vec3 c = vec3(t);
             gl_FragColor = vec4( c - .15 * ao + .5 * vec3( diffuse_value1 + diffuse_value2 + diffuse_value3 + diffuse_value4 ), 1.0 );            
         }
 
       `;
-      var texture = new THREE.TextureLoader().load( "https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480" );
+      
       AFRAME.registerShader("custom-material-shader", {
         schema: {
           u_time: { type: "number", is: "uniform", default: 1.0 },
           timeMsec: { type: "time", is: "uniform" },
-          src: {type: 'map', is: 'uniform', default:"https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480"}
+          uMap: {type: 'map', is: 'uniform'}
         },
         raw: false,
         vertexShader: vShader,
@@ -79,12 +79,7 @@
         }
       });
       
-      AFRAME.registerComponent('set-moon-texture', {
-        init: function () {
-          console.log("asdf");
-          this.el.setAttribute('material', 'src', texture);
-        },
-      });      
+       
     </script>
   </head>
   <body>
@@ -97,9 +92,8 @@
       ></a-sky>
 
       <a-sphere
-        material="shader:custom-material-shader;"
+        material="shader:custom-material-shader; uMap: https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480"
         scale="1 1 1"
-        set-moon-texture
         radius="0.2"
         position="0 1.6 -0.3"
         segments-height="42"
