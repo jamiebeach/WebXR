@@ -51,7 +51,8 @@
             vec3 color = vec3(0.);
             color = vec3( c(timeMsec*0.005), c(timeMsec*0.001), c(timeMsec*0.0005)  );
             vec4 t = texture2D(map, vec2(vUV.x, vUV.y));
-            gl_FragColor = vec4( color - .15 * ao + .5 * vec3( diffuse_value1 + diffuse_value2 + diffuse_value3 + diffuse_value4 ), 1.0 );            
+            vec3 c = vec3(t);
+            gl_FragColor = vec4( c - .15 * ao + .5 * vec3( diffuse_value1 + diffuse_value2 + diffuse_value3 + diffuse_value4 ), 1.0 );            
         }
 
       `;
@@ -89,8 +90,7 @@
       ></a-sky>
 
       <a-sphere
-        material="shader:custom-material-shader"
-        src="https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480"
+        material="shader:custom-material-shader; src:https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmoon-texture.jpg?v=1596486900480"
         scale="1 1 1"
         radius="0.2"
         position="0 1.6 -0.3"
