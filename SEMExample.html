@@ -62,23 +62,19 @@
       <a-entity oculus-touch-controls="hand: right"></a-entity>
 
       <a-sky
-        src="https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fstars_texture.jpg?v=1596487305133"
+        src="https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fbackyard-hdr-360.jpg?v=1597191984699"
       ></a-sky>
 
       <a-torus-knot 
           position="0 1.6 -3.3"
-          material="shader:SEM-shader;uMap:https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fmatcap2.jpg?v=1597065193440"
+          material="shader:SEM-shader;uMap:https://cdn.glitch.com/6cd24866-2086-438e-8da5-5ab5e75a5a7b%2Fbackyard-hdr-360.jpg?v=1597191984699"
           arc="180" 
           p="2" 
           q="3"
           radius="1"
+          animation="property: rotation; to: 0 360 360; loop: true; easing: linear; dur: 10000"
           radius-tubular="0.2">
 
-          <a-animation attribute="rotation"
-            dur="3000"
-            to="0 360 0"
-            repeat="indefinite"
-            easing="linear"></a-animation>
       </a-torus-knot>
       
     </a-scene>
